@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="powered_by_newsapi_org">powered by NewsAPI.org</string>
+    <string name="news_app">NEWS APP</string>
+</resources>
