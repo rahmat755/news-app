@@ -1,4 +1,4 @@
-package com.arthur.newsapp.data.model
+package arthur.com.data.model
 
 interface ResponseModel<out T: DataModel> {
     val status: String

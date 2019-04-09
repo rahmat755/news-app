@@ -1,7 +1,7 @@
-package com.arthur.newsapp.data.repository.news
+package arthur.com.data.repository.news
 
-import com.arthur.newsapp.data.datasource.remote.NewsApi
-import com.arthur.newsapp.data.model.news.Response
+import arthur.com.data.datasource.remote.NewsApi
+import arthur.com.data.model.news.Response
 import kotlinx.coroutines.Deferred
 
 class NewsRepository constructor(private val api: NewsApi) : INewsRepository {

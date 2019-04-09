@@ -1,7 +1,7 @@
 package com.arthur.newsapp.domain
 
-import com.arthur.newsapp.data.model.DataModel
-import com.arthur.newsapp.data.model.ResponseModel
+import arthur.com.data.model.DataModel
+import arthur.com.data.model.ResponseModel
 import com.arthur.newsapp.util.Result
 import kotlinx.coroutines.Deferred
 import timber.log.Timber

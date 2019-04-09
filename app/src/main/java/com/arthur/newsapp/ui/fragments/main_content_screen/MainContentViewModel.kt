@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arthur.newsapp.data.model.news.Article
+import arthur.com.data.model.news.Article
 import com.arthur.newsapp.domain.main_screen.IMainScreenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

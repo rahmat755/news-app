@@ -1,6 +1,6 @@
-package com.arthur.newsapp.data.repository.news
+package arthur.com.data.repository.news
 
-import com.arthur.newsapp.data.model.news.Response
+import arthur.com.data.model.news.Response
 import kotlinx.coroutines.Deferred
 
 interface INewsRepository {

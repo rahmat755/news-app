@@ -1,4 +1,4 @@
-package com.arthur.newsapp.util
+package arthur.com.data.utils
 
 const val API_KEY = "75b51ff768ea44e7bd7be7d095c5f054"
 const val BASE_URL = "https://newsapi.org/"

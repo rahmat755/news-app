@@ -1,17 +1,13 @@
 package com.arthur.newsapp.di.main_content
 
-import com.arthur.newsapp.data.datasource.remote.NewsApi
-import com.arthur.newsapp.data.repository.news.INewsRepository
-import com.arthur.newsapp.data.repository.news.NewsRepository
+import arthur.com.data.datasource.remote.NewsApi
+import arthur.com.data.repository.news.INewsRepository
+import arthur.com.data.repository.news.NewsRepository
 import com.arthur.newsapp.domain.main_screen.IMainScreenUseCase
 import com.arthur.newsapp.domain.main_screen.MainScreenUseCase
-import com.arthur.newsapp.util.BASE_URL
 import com.arthur.newsapp.util.vmfactories.MainContentVMFactory
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class MainContentModule {

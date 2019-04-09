@@ -2,8 +2,8 @@ package com.arthur.newsapp.di
 
 import android.app.Application
 import android.content.Context
-import com.arthur.newsapp.data.datasource.remote.NewsApi
-import com.arthur.newsapp.util.BASE_URL
+import arthur.com.data.datasource.remote.NewsApi
+import arthur.com.data.utils.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides

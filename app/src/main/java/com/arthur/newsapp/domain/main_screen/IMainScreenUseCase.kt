@@ -1,9 +1,8 @@
 package com.arthur.newsapp.domain.main_screen
 
-import com.arthur.newsapp.data.model.DataModel
-import com.arthur.newsapp.data.model.news.Article
-import com.arthur.newsapp.data.model.news.Response
-import kotlinx.coroutines.Deferred
+import arthur.com.data.model.DataModel
+import arthur.com.data.model.news.Article
+import arthur.com.data.model.news.Response
 
 interface IMainScreenUseCase {
     suspend fun getTopNewsAsync(

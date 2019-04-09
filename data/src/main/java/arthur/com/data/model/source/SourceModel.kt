@@ -1,7 +1,7 @@
-package com.arthur.newsapp.data.model.source
+package arthur.com.data.model.source
 
-import com.arthur.newsapp.data.model.DataModel
-import com.arthur.newsapp.data.model.ResponseModel
+import arthur.com.data.model.DataModel
+import arthur.com.data.model.ResponseModel
 
 data class Sources(override val status: String, override val data: List<Source>) : ResponseModel<Source>
 

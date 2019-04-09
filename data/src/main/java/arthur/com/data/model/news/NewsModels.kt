@@ -1,8 +1,8 @@
-package com.arthur.newsapp.data.model.news
+package arthur.com.data.model.news
 
-import com.arthur.newsapp.data.model.DataModel
-import com.arthur.newsapp.data.model.ResponseModel
-import com.arthur.newsapp.data.model.source.Source
+import arthur.com.data.model.DataModel
+import arthur.com.data.model.ResponseModel
+import arthur.com.data.model.source.Source
 import com.google.gson.annotations.SerializedName
 
 data class Response(

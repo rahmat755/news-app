@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.arthur.newsapp.R
-import com.arthur.newsapp.data.model.news.Article
+import arthur.com.data.model.news.Article
 import com.arthur.newsapp.databinding.ItemArticleBinding
 
 class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
