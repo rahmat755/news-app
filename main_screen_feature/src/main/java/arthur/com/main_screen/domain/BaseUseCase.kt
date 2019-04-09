@@ -1,4 +1,4 @@
-package com.arthur.newsapp.domain
+package arthur.com.main_screen.domain
 
 import arthur.com.data.model.DataModel
 import arthur.com.data.model.ResponseModel

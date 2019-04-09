@@ -1,8 +1,8 @@
-package com.arthur.newsapp.domain.main_screen
+package arthur.com.main_screen.domain.main_screen
 
 import arthur.com.data.model.news.Article
 import arthur.com.data.repository.news.INewsRepository
-import com.arthur.newsapp.domain.BaseUseCase
+import arthur.com.main_screen.domain.BaseUseCase
 
 class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
     BaseUseCase<Article>() {

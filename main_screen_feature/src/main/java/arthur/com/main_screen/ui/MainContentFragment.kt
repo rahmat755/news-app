@@ -1,4 +1,4 @@
-package com.arthur.newsapp.ui.fragments.main_content_screen
+package arthur.com.main_screen.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,22 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import arthur.com.main_screen.MainContentVMFactory
 import com.arthur.newsapp.NewsApp
 
 import com.arthur.newsapp.di.main_content.MainContentModule
 import com.arthur.newsapp.util.injectViewModel
-import arthur.com.main_screen.MainContentVMFactory
 import kotlinx.android.synthetic.main.main_content_fragment.*
 import timber.log.Timber
 import javax.inject.Inject
 import com.arthur.newsapp.R
+import com.arthur.newsapp.ui.fragments.main_content_screen.MainContentViewModel
 import com.arthur.newsapp.util.EqualSpacingItemDecoration
 
 
 class MainContentFragment : Fragment() {
 
     @Inject
-    lateinit var vmFactory: arthur.com.main_screen.MainContentVMFactory
+    lateinit var vmFactory: MainContentVMFactory
     private lateinit var viewModel: MainContentViewModel
     lateinit var mAdapter: MainContentAdapter
 

@@ -1,8 +1,8 @@
-package com.arthur.newsapp.util.vmfactories
+package arthur.com.main_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.arthur.newsapp.domain.main_screen.IMainScreenUseCase
+import arthur.com.main_screen.domain.main_screen.IMainScreenUseCase
 import com.arthur.newsapp.ui.fragments.main_content_screen.MainContentViewModel
 import javax.inject.Inject
 

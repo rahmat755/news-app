@@ -1,1 +1,1 @@
-include ':app', ':data', ':main_screen'
+include ':app', ':data', ':main_screen_feature'

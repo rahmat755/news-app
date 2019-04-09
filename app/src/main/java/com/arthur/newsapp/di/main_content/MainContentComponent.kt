@@ -1,6 +1,5 @@
 package com.arthur.newsapp.di.main_content
 
-import com.arthur.newsapp.ui.fragments.main_content_screen.MainContentFragment
 import dagger.Subcomponent
 
 @MainModuleScope
