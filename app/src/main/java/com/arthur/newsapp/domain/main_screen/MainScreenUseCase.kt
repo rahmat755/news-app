@@ -1,7 +1,7 @@
 package com.arthur.newsapp.domain.main_screen
 
-import arthur.com.data.model.news.Article
-import arthur.com.data.repository.news.INewsRepository
+import com.arthur.newsapp.data.model.news.Article
+import com.arthur.newsapp.data.repository.news.INewsRepository
 import com.arthur.newsapp.domain.BaseUseCase
 
 class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
@@ -13,16 +13,26 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
         page: Int,
         country: String,
         pageSize: Int
-    ): List<Article>? = safeApiCall({
-        repository.getTopNewsAsync(
-            query,
-            category,
-            sources,
-            page,
-            country,
-            pageSize
-        )
-    }, errorMessage = "Can't get top news")
+    ): List<Article>? {
+//        val result: ArrayList<Article>? = arrayListOf()
+//        var local: List<Article>?
+//        val remote: List<Article>? = safeApiCall({
+//            repository.getTopNewsRemoteAsync(
+//                query,
+//                category,
+//                sources,
+//                page,
+//                country,
+//                pageSize
+//            )
+//        }, errorMessage = "Can't get top news")
+//
+//        try {
+//            local = repository.getTopNewsLocalAsync(query)
+//        } catch (e: Throwable) {
+//            local = null
+//        }
+    }
 
     override suspend fun getEverythingAsync(
         query: String,

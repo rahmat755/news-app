@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.arthur.newsapp.R
-import arthur.com.data.model.news.Article
+import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.databinding.ItemArticleBinding
 
 class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
@@ -28,6 +28,22 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
     fun addItems(items: List<Article>?) {
         items ?: return
         articles.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun filter(predicate: String){
+        val regex = Regex(predicate)
+        val tmp = articles.filter { article ->
+            article.description.let {
+                it!!.contains(regex)
+            } || article.author.let {
+                it!!.contains(regex)
+            } || article.title.let {
+                it!!.contains(regex)
+            }
+        }
+        articles.clear()
+        articles.addAll(tmp)
         notifyDataSetChanged()
     }
 

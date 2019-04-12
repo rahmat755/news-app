@@ -1,7 +1,7 @@
-package arthur.com.data.datasource.remote
+package com.arthur.newsapp.data.datasource.remote
 
-import arthur.com.data.model.news.Response
-import arthur.com.data.utils.API_KEY
+import com.arthur.newsapp.data.model.news.Response
+import com.arthur.newsapp.data.utils.API_KEY
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

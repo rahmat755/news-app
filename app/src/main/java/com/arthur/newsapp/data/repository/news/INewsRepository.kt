@@ -1,10 +1,11 @@
-package arthur.com.data.repository.news
+package com.arthur.newsapp.data.repository.news
 
-import arthur.com.data.model.news.Response
+import com.arthur.newsapp.data.model.news.Article
+import com.arthur.newsapp.data.model.news.Response
 import kotlinx.coroutines.Deferred
 
 interface INewsRepository {
-    suspend fun getTopNewsAsync(
+    suspend fun getTopNewsRemoteAsync(
         query: String = "",
         category: String = "",
         sources: String = "",
@@ -26,4 +27,8 @@ interface INewsRepository {
         language: String = "ru",
         country: String = ""
     ): Deferred<Response>
+
+    suspend fun getTopNewsLocalAsync(query: String = ""): List<Article>
+
+    suspend fun saveArticle(article: Article)
 }

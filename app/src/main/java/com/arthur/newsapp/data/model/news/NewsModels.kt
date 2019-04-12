@@ -1,8 +1,10 @@
-package arthur.com.data.model.news
+package com.arthur.newsapp.data.model.news
 
-import arthur.com.data.model.DataModel
-import arthur.com.data.model.ResponseModel
-import arthur.com.data.model.source.Source
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.arthur.newsapp.data.model.DataModel
+import com.arthur.newsapp.data.model.ResponseModel
+import com.arthur.newsapp.data.model.source.Source
 import com.google.gson.annotations.SerializedName
 
 data class Response(
@@ -12,11 +14,13 @@ data class Response(
     override val data: List<Article>
 ) : ResponseModel<Article>
 
+@Entity
 data class Article(
     val source: Source,
     val author: String?,
     val title: String?,
     val description: String?,
+    @PrimaryKey
     val url: String,
     val urlToImage: String?,
     val publishedAt: String

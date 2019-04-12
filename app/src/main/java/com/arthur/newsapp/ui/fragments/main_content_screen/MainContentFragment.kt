@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import com.arthur.newsapp.NewsApp
 
@@ -36,6 +37,27 @@ class MainContentFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
         mAdapter = MainContentAdapter()
+        tb_main.inflateMenu(R.menu.toolbar_menu)
+        tb_main.menu.also {
+            val searchItem = it.findItem(R.id.action_search)
+            val searchView = searchItem.actionView as SearchView
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query ?: return false
+                    if (query.isNullOrBlank()) viewModel.load("")
+                    mAdapter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText ?: return false
+                    if (newText.isNullOrBlank()) viewModel.load("")
+                    mAdapter.filter(newText)
+                    return false
+                }
+
+            })
+        }
         val decoration =EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
         with(rv_articles) {
             adapter = mAdapter

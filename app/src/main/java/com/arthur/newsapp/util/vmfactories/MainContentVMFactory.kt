@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class MainContentVMFactory  @Inject constructor(private var useCase: IMainScreenUseCase): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        @Suppress("UNCHECKED_CAST")
         return  if (modelClass.isAssignableFrom(MainContentViewModel::class.java))
             MainContentViewModel(useCase) as T
         else throw IllegalArgumentException("ViewModel Not Found")

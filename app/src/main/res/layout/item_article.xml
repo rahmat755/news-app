@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="article"
-            type="arthur.com.data.model.news.Article"/>
+            type="com.arthur.newsapp.data.model.news.Article" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,14 +20,14 @@
         <ImageView
             android:id="@+id/iv_content"
             android:layout_width="match_parent"
-            android:scaleType="fitXY"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:loadImg="@{article.urlToImage}"
             android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:loadImg="@{article.urlToImage}"
             tools:src="@tools:sample/avatars" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -41,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:setTextOrHide="@{article.author}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_content"
+            app:setTextOrHide="@{article.author}"
             tools:text="Author" />
 
         <TextView
@@ -51,9 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:setTextOrHide="@{article.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_author"
+            app:setTextOrHide="@{article.title}"
             tools:text="Title" />
 
         <TextView
@@ -61,10 +62,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:setTextOrHide="@{article.description}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:setTextOrHide="@{article.description}"
             tools:text="Украинские силовики проводят на линии соприкосновения в Донбассе спецоперацию, целью которой является изолирование от избирательного процесса граждан, не... РИА Новости, 31.03.2019" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setTextOrHide="@{article.publishedAt}"
+            tools:text = "27.02.2019"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc"
+            app:layout_constraintEnd_toEndOf="@id/tv_desc"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

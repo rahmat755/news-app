@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.arthur.newsapp.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 @BindingAdapter("setTextOrHide")
 fun setTextOrHide(view: TextView, text: String?) {
@@ -20,6 +21,7 @@ fun setTextOrHide(view: TextView, text: String?) {
 fun loadImg(view: ImageView, url: String) {
     GlideApp.with(view)
         .load(url)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
         .placeholder(R.drawable.ic_launcher_background)
         .error(android.R.drawable.stat_notify_error)
         .into(view)

@@ -1,8 +1,6 @@
 package com.arthur.newsapp.domain.main_screen
 
-import arthur.com.data.model.DataModel
-import arthur.com.data.model.news.Article
-import arthur.com.data.model.news.Response
+import com.arthur.newsapp.data.model.news.Article
 
 interface IMainScreenUseCase {
     suspend fun getTopNewsAsync(
