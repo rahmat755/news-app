@@ -8,7 +8,7 @@ import com.arthur.newsapp.R
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.databinding.ItemArticleBinding
 
-class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
+class MainContentAdapter constructor(private val listener: OnArticleClick): RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
 
     private val articles: ArrayList<Article> = arrayListOf()
 
@@ -22,7 +22,7 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
     override fun getItemCount(): Int = articles.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(articles[position])
+        holder.bind(articles[position], listener)
     }
 
     fun addItems(items: List<Article>?) {
@@ -49,8 +49,11 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
 
     class ViewHolder(private val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Article) {
+        fun bind(item: Article, listener: OnArticleClick) {
             binding.article = item
+            binding.root.setOnClickListener {
+                listener.onClick(item)
+            }
             binding.executePendingBindings()
         }
     }

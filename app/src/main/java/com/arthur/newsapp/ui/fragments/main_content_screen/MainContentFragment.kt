@@ -16,10 +16,11 @@ import kotlinx.android.synthetic.main.main_content_fragment.*
 import timber.log.Timber
 import javax.inject.Inject
 import com.arthur.newsapp.R
+import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.util.EqualSpacingItemDecoration
 
 
-class MainContentFragment : Fragment() {
+class MainContentFragment : Fragment(), OnArticleClick {
 
     @Inject
     lateinit var vmFactory: MainContentVMFactory
@@ -70,4 +71,7 @@ class MainContentFragment : Fragment() {
         })
     }
 
+    override fun onClick(item: Article) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
