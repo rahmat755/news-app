@@ -5,4 +5,8 @@
     <string name="search">Search</string>
     <string name="open_on_site">Open on site</string>
     <string name="share_link">Share link</string>
+    <string name="refresh">Refresh</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

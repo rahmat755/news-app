@@ -3,10 +3,13 @@ package com.arthur.newsapp.domain.main_screen
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.data.repository.news.INewsRepository
 import com.arthur.newsapp.domain.BaseUseCase
-import timber.log.Timber
+import java.text.SimpleDateFormat
 
 class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
     BaseUseCase<Article>() {
+
+    private val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+
     override suspend fun getTopNewsAsync(
         query: String,
         category: String,
@@ -30,11 +33,12 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
 
         try {
             local = if (query.isNotBlank())
-                repository.getTopNewsLocalAsyncByQuery(query)
+                repository.getTopNewsLocalAsyncByQuery("%$query%")
             else repository.getTopNewsLocalAsync()
         } catch (e: Throwable) {
             local = null
         }
+
         when {
             local != null -> {
                 remote?.forEach {
@@ -53,6 +57,11 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
             }
             else -> result = null
         }
+
+        result?.sortByDescending {
+            formatter.parse(it.publishedAt)
+        }
+
         return result
     }
 

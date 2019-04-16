@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.transition.Explode
-import androidx.transition.Slide
+import androidx.transition.Fade
 import com.arthur.newsapp.NewsApp
 
 import com.arthur.newsapp.di.main_content.MainContentModule
@@ -23,6 +22,7 @@ import com.arthur.newsapp.ui.fragments.detail_screen.DetailScreenFragment
 import com.arthur.newsapp.util.EqualSpacingItemDecoration
 import com.arthur.newsapp.util.DetailsTransition
 import com.arthur.newsapp.util.ReturnTransition
+import kotlinx.android.synthetic.main.detail_screen_fragment.view.*
 import kotlinx.android.synthetic.main.item_article.*
 import kotlinx.android.synthetic.main.item_article.tv_author
 import kotlinx.android.synthetic.main.item_article.tv_desc
@@ -46,10 +46,19 @@ class MainContentFragment : Fragment(), OnArticleClick {
         super.onActivityCreated(savedInstanceState)
         NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
         mAdapter = MainContentAdapter(this)
+        pb_loading.show()
         tb_main.inflateMenu(R.menu.toolbar_menu)
+        tb_main.tv_toolbar.text = context?.getString(R.string.app_name)
         tb_main.menu.also {
             val searchItem = it.findItem(R.id.action_search)
             val searchView = searchItem.actionView as SearchView
+            searchView.setOnSearchClickListener {
+                tb_main.tv_toolbar.visibility = View.GONE
+            }
+            searchView.setOnCloseListener {
+                tb_main.tv_toolbar.visibility = View.VISIBLE
+                return@setOnCloseListener false
+            }
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     viewModel.load(query)
@@ -74,11 +83,10 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
         viewModel = injectViewModel(vmFactory)
         viewModel.topArticles.observe(this, Observer {
-            pb_loading.visibility = View.GONE
+            pb_loading.hide()
             tv_no_data.visibility = View.GONE
             mAdapter.clear()
             mAdapter.addItems(it)
-            Timber.e(it.toString())
         })
 
         viewModel.errorLiveData.observe(this, Observer {
@@ -93,8 +101,8 @@ class MainContentFragment : Fragment(), OnArticleClick {
         Timber.e(position.toString())
         val details = DetailScreenFragment()
         details.sharedElementEnterTransition = DetailsTransition()
-        details.enterTransition = Slide()
-        exitTransition = Slide()
+        details.enterTransition = Fade()
+        exitTransition = Fade()
         details.sharedElementReturnTransition = ReturnTransition()
         val bundle = Bundle()
         bundle.putParcelable("article", item)
@@ -104,7 +112,6 @@ class MainContentFragment : Fragment(), OnArticleClick {
         bundle.putString("tv_desc", "desc_transition$position")
         bundle.putString("tv_date", "date_transition$position")
         details.arguments = bundle
-
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.addSharedElement(iv_content, "iv_transition$position")
@@ -112,9 +119,9 @@ class MainContentFragment : Fragment(), OnArticleClick {
             ?.addSharedElement(tv_title, "title_transition$position")
             ?.addSharedElement(tv_desc, "desc_transition$position")
             ?.addSharedElement(tv_date, "date_transition$position")
-            ?.add(R.id.container, details, this.javaClass.simpleName)
             ?.hide(this)
-            ?.addToBackStack(this.javaClass.simpleName)
+            ?.add(R.id.container, details, details.javaClass.simpleName)
+            ?.addToBackStack(details.javaClass.simpleName)
             ?.commit()
     }
 }

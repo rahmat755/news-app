@@ -36,6 +36,24 @@
         android:padding="8dp"
         tools:context=".ui.fragments.detail_screen.DetailScreenFragment">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8dp">
+
+            <TextView
+                android:id="@+id/tv_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="22sp"
+                app:setTitle="@{article.title}" />
+        </androidx.appcompat.widget.Toolbar>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -43,7 +61,7 @@
             app:layout_constraintBottom_toBottomOf="@id/guideline_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tb_detail"
             app:loadImg="@{article.urlToImage}"
             tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -52,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.5" />
 
         <TextView
             android:id="@+id/tv_author"
@@ -99,7 +117,7 @@
             android:transitionName="@{tv_date_trans}"
             app:layout_constraintEnd_toEndOf="@id/tv_desc"
             app:layout_constraintTop_toBottomOf="@id/tv_desc"
-            app:setTextOrHide="@{article.publishedAt}"
+            app:setDate="@{article.publishedAt}"
             tools:text="@tools:sample/date/ddmmyy" />
 
         <com.google.android.material.button.MaterialButton

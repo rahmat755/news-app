@@ -9,7 +9,6 @@ import java.io.IOException
 
 open class BaseUseCase<T : DataModel> {
     suspend fun safeApiCall(call: suspend () -> Deferred<ResponseModel<T>>, errorMessage: String): List<T>? {
-
         return when(val result  = safeApiResult(call,errorMessage)) {
             is Result.Success ->
                 result.data
@@ -18,13 +17,15 @@ open class BaseUseCase<T : DataModel> {
                 null
             }
         }
-
     }
 
     private suspend fun  safeApiResult(call: suspend ()-> Deferred<ResponseModel<T>>, errorMessage: String) : Result<List<T>>{
-        val response = call.invoke().await()
-        if(response.status == "ok") return Result.Success(response.data)
-
-        return Result.Error(IOException("$errorMessage - ${response.status}"))
+        return try {
+            val response = call.invoke().await()
+            if(response.status == "ok") Result.Success(response.data)
+            else Result.Error(IOException("$errorMessage - ${response.status}"))
+        } catch (e: Throwable){
+            Result.Error(e)
+        }
     }
 }

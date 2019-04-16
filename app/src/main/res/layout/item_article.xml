@@ -94,12 +94,12 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setTextOrHide="@{article.publishedAt}"
-            tools:text = "27.02.2019"
-            android:transitionName="@{tv_date_trans}"
             android:layout_marginTop="8dp"
+            android:transitionName="@{tv_date_trans}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_desc"
-            app:layout_constraintEnd_toEndOf="@id/tv_desc"/>
+            app:setDate="@{article.publishedAt}"
+            tools:text="27.02.2019" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

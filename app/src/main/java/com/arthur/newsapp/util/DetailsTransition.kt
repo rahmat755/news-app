@@ -9,16 +9,16 @@ class DetailsTransition : TransitionSet() {
     init {
         ordering = ORDERING_TOGETHER
         addTransition(ChangeBounds())
-        duration = 200
-//            addTransition(ChangeTransform())
-//            addTransition( ChangeImageTransform())
+        addTransition(ChangeTransform())
+        addTransition(ChangeImageTransform())
     }
 }
 
 class ReturnTransition : TransitionSet() {
     init {
-        ordering = ORDERING_SEQUENTIAL
+        ordering = ORDERING_TOGETHER
         addTransition(ChangeBounds())
-        duration = 150
+        addTransition(ChangeTransform())
+        addTransition(ChangeImageTransform())
     }
 }
