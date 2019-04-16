@@ -24,7 +24,7 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
         }
     }
 
-    fun load(query: String) {
+    fun load(query: String ="") {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _topArticles.postValue(

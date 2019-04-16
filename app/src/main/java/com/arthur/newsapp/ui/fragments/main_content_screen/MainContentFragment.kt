@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.transition.Explode
 import com.arthur.newsapp.NewsApp
 
 import com.arthur.newsapp.di.main_content.MainContentModule
@@ -17,7 +18,14 @@ import timber.log.Timber
 import javax.inject.Inject
 import com.arthur.newsapp.R
 import com.arthur.newsapp.data.model.news.Article
+import com.arthur.newsapp.ui.fragments.detail_screen.DetailScreenFragment
 import com.arthur.newsapp.util.EqualSpacingItemDecoration
+import com.arthur.newsapp.util.DetailsTransition
+import com.arthur.newsapp.util.ReturnTransition
+import kotlinx.android.synthetic.main.item_article.*
+import kotlinx.android.synthetic.main.item_article.tv_author
+import kotlinx.android.synthetic.main.item_article.tv_desc
+import kotlinx.android.synthetic.main.item_article.tv_title
 
 
 class MainContentFragment : Fragment(), OnArticleClick {
@@ -26,7 +34,6 @@ class MainContentFragment : Fragment(), OnArticleClick {
     lateinit var vmFactory: MainContentVMFactory
     private lateinit var viewModel: MainContentViewModel
     lateinit var mAdapter: MainContentAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +44,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
-        mAdapter = MainContentAdapter()
+        mAdapter = MainContentAdapter(this)
         tb_main.inflateMenu(R.menu.toolbar_menu)
         tb_main.menu.also {
             val searchItem = it.findItem(R.id.action_search)
@@ -59,7 +66,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
             })
         }
-        val decoration =EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
+        val decoration = EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
         with(rv_articles) {
             adapter = mAdapter
             addItemDecoration(decoration)
@@ -69,9 +76,34 @@ class MainContentFragment : Fragment(), OnArticleClick {
             mAdapter.addItems(it)
             Timber.e(it.toString())
         })
+
     }
 
-    override fun onClick(item: Article) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onClick(item: Article, position: Int) {
+        Timber.e(position.toString())
+        val details = DetailScreenFragment()
+        details.sharedElementEnterTransition = DetailsTransition()
+        details.enterTransition = Explode()
+        exitTransition = Explode()
+        details.sharedElementReturnTransition = ReturnTransition()
+        val bundle = Bundle()
+        bundle.putParcelable("article", item)
+        bundle.putString("iv_transition", "iv_transition$position")
+        bundle.putString("tv_author", "author_transition$position")
+        bundle.putString("tv_title", "title_transition$position")
+        bundle.putString("tv_desc", "desc_transition$position")
+        bundle.putString("tv_date", "date_transition$position")
+        details.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.addSharedElement(iv_content, "iv_transition$position")
+            ?.addSharedElement(tv_author, "author_transition$position")
+            ?.addSharedElement(tv_title, "title_transition$position")
+            ?.addSharedElement(tv_desc, "desc_transition$position")
+            ?.addSharedElement(tv_date, "date_transition$position")
+            ?.add(R.id.container, details, this.javaClass.simpleName)
+            ?.addToBackStack(this.javaClass.simpleName)
+            ?.commit()
     }
 }

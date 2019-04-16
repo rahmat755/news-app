@@ -28,7 +28,9 @@ interface INewsRepository {
         country: String = ""
     ): Deferred<Response>
 
-    suspend fun getTopNewsLocalAsync(query: String = ""): List<Article>
+    suspend fun getTopNewsLocalAsyncByQuery(query: String = ""): List<Article>
+
+    suspend fun getTopNewsLocalAsync():List<Article>
 
     suspend fun saveArticle(article: Article)
 }

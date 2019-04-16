@@ -3,6 +3,7 @@ package com.arthur.newsapp.domain.main_screen
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.data.repository.news.INewsRepository
 import com.arthur.newsapp.domain.BaseUseCase
+import timber.log.Timber
 
 class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
     BaseUseCase<Article>() {
@@ -16,24 +17,29 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
     ): List<Article>? {
         val result: ArrayList<Article>? = arrayListOf()
         var local: List<Article>?
-        val remote: List<Article>? = safeApiCall({
-            repository.getTopNewsRemoteAsync(
-                query,
-                category,
-                sources,
-                page,
-                country,
-                pageSize
-            )
-        }, errorMessage = "Can't get top news")
-
-//        try {
-//            local = repository.getTopNewsLocalAsync(query)
-//        } catch (e: Throwable) {
-//            local = null
+//        val remote: List<Article>? = safeApiCall({
+//            repository.getTopNewsRemoteAsync(
+//                query,
+//                category,
+//                sources,
+//                page,
+//                country,
+//                pageSize
+//            )
+//        }, errorMessage = "Can't get top news")
+//        remote?.forEach {
+//            repository.saveArticle(it)
 //        }
+        try {
+            local = if (query.isNotBlank())
+                repository.getTopNewsLocalAsyncByQuery(query)
+            else repository.getTopNewsLocalAsync()
+        } catch (e: Throwable) {
+            Timber.e(e)
+            local = null
+        }
 //
-        return remote
+        return local
     }
 
     override suspend fun getEverythingAsync(
