@@ -8,7 +8,8 @@ import com.arthur.newsapp.R
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.databinding.ItemArticleBinding
 
-class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
+class MainContentAdapter constructor(private val listener: OnArticleClick) :
+    RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
 
     private val articles: ArrayList<Article> = arrayListOf()
 
@@ -22,7 +23,12 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
     override fun getItemCount(): Int = articles.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(articles[position])
+        holder.binding.ivTransition = "iv_transition$position"
+        holder.binding.tvAuthorTrans = "author_transition$position"
+        holder.binding.tvTitleTrans = "title_transition$position"
+        holder.binding.tvDescTrans = "desc_transition$position"
+        holder.binding.tvDateTrans = "date_transition$position"
+        holder.bind(position, articles[position], listener)
     }
 
     fun addItems(items: List<Article>?) {
@@ -58,10 +64,13 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: ItemArticleBinding) :
+    class ViewHolder(val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Article) {
+        fun bind(position: Int, item: Article, listener: OnArticleClick) {
             binding.article = item
+            binding.root.setOnClickListener {
+                listener.onClick(item, position)
+            }
             binding.executePendingBindings()
         }
     }

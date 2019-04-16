@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="iv_transition"
             type="String" />
@@ -31,40 +32,37 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        tools:context=".ui.fragments.detail_screen.DetailScreenFragment">
 
         <ImageView
-            android:id="@+id/iv_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:transitionName="@{iv_transition}"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:loadImg="@{article.urlToImage}"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_h1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
+            app:layout_constraintGuide_percent="0.4" />
 
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:transitionName="@{tv_author_trans}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_content"
+            app:layout_constraintTop_toBottomOf="@id/guideline_h1"
             app:setTextOrHide="@{article.author}"
             tools:text="Author" />
 
@@ -74,32 +72,69 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:transitionName="@{tv_title_trans}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_author"
             app:layout_constraintTop_toBottomOf="@id/tv_author"
             app:setTextOrHide="@{article.title}"
             tools:text="Title" />
 
         <TextView
             android:id="@+id/tv_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="textStart"
             android:transitionName="@{tv_desc_trans}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             app:setTextOrHide="@{article.description}"
-            tools:text="Украинские силовики проводят на линии соприкосновения в Донбассе спецоперацию, целью которой является изолирование от избирательного процесса граждан, не... РИА Новости, 31.03.2019" />
+            tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setTextOrHide="@{article.publishedAt}"
-            tools:text = "27.02.2019"
-            android:transitionName="@{tv_date_trans}"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:transitionName="@{tv_date_trans}"
+            app:layout_constraintEnd_toEndOf="@id/tv_desc"
             app:layout_constraintTop_toBottomOf="@id/tv_desc"
-            app:layout_constraintEnd_toEndOf="@id/tv_desc"/>
+            app:setTextOrHide="@{article.publishedAt}"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_open"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/buttonColor"
+            android:text="@string/open_on_site"
+            android:textSize="14sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_share"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_share"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/buttonColor"
+            android:text="@string/share_link"
+            android:textSize="14sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_open"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_open"
+            app:layout_constraintTop_toTopOf="@id/btn_open" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

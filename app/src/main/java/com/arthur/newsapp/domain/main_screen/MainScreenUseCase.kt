@@ -3,6 +3,7 @@ package com.arthur.newsapp.domain.main_screen
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.data.repository.news.INewsRepository
 import com.arthur.newsapp.domain.BaseUseCase
+import timber.log.Timber
 
 class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
     BaseUseCase<Article>() {
@@ -28,7 +29,9 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
         }, errorMessage = "Can't get top news")
 
         try {
-            local = repository.getTopNewsLocalAsync(query)
+            local = if (query.isNotBlank())
+                repository.getTopNewsLocalAsyncByQuery(query)
+            else repository.getTopNewsLocalAsync()
         } catch (e: Throwable) {
             local = null
         }
@@ -44,7 +47,7 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
             }
             remote != null -> {
                 result?.addAll(remote)
-                remote.forEach{
+                remote.forEach {
                     repository.saveArticle(it)
                 }
             }

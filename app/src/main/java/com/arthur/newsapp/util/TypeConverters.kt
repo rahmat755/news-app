@@ -1,7 +1,7 @@
 package com.arthur.newsapp.util
 
 import androidx.room.TypeConverter
-import com.arthur.newsapp.data.model.source.Source
+import com.arthur.newsapp.data.model.news.Source
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

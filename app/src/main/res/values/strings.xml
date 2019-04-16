@@ -3,4 +3,6 @@
     <string name="powered_by_newsapi_org">powered by NewsAPI.org</string>
     <string name="news_app">NEWS APP</string>
     <string name="search">Search</string>
+    <string name="open_on_site">Open on site</string>
+    <string name="share_link">Share link</string>
 </resources>

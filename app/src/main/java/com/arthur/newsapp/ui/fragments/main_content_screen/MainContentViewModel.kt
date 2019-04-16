@@ -29,7 +29,7 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
         }
     }
 
-    fun load(query: String) {
+    fun load(query: String ="") {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val res = useCase.getTopNewsAsync(pageSize = 10, page = 1, query = query)
