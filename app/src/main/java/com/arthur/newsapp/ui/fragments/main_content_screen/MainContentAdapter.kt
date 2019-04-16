@@ -27,20 +27,31 @@ class MainContentAdapter : RecyclerView.Adapter<MainContentAdapter.ViewHolder>()
 
     fun addItems(items: List<Article>?) {
         items ?: return
-        articles.addAll(items)
+        items.forEach {
+            if (!articles.contains(it)) {
+                articles.add(it)
+                notifyItemInserted(articles.size - 1)
+            }
+        }
+    }
+
+    fun clear() {
+        articles.clear()
         notifyDataSetChanged()
     }
 
-    fun filter(predicate: String){
+    fun filter(predicate: String) {
         val regex = Regex(predicate)
         val tmp = articles.filter { article ->
-            article.description.let {
-                it!!.contains(regex)
-            } || article.author.let {
-                it!!.contains(regex)
-            } || article.title.let {
-                it!!.contains(regex)
-            }
+            (if (article.description != null)
+                article.description.contains(regex)
+            else false) ||
+                    (if (article.author != null)
+                        article.author.contains(regex)
+                    else false) ||
+                    (if (article.title != null)
+                        article.title.contains(regex)
+                    else false)
         }
         articles.clear()
         articles.addAll(tmp)

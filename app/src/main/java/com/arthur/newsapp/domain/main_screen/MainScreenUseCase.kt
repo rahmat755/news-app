@@ -14,24 +14,43 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
         country: String,
         pageSize: Int
     ): List<Article>? {
-//        val result: ArrayList<Article>? = arrayListOf()
-//        var local: List<Article>?
-//        val remote: List<Article>? = safeApiCall({
-//            repository.getTopNewsRemoteAsync(
-//                query,
-//                category,
-//                sources,
-//                page,
-//                country,
-//                pageSize
-//            )
-//        }, errorMessage = "Can't get top news")
-//
-//        try {
-//            local = repository.getTopNewsLocalAsync(query)
-//        } catch (e: Throwable) {
-//            local = null
-//        }
+        var result: ArrayList<Article>? = arrayListOf()
+        var local: List<Article>?
+        val remote: List<Article>? = safeApiCall({
+            repository.getTopNewsRemoteAsync(
+                query,
+                category,
+                sources,
+                page,
+                country,
+                pageSize
+            )
+        }, errorMessage = "Can't get top news")
+
+        try {
+            local = repository.getTopNewsLocalAsync(query)
+        } catch (e: Throwable) {
+            local = null
+        }
+        when {
+            local != null -> {
+                remote?.forEach {
+                    if (!local.contains(it)) {
+                        result?.add(it)
+                        repository.saveArticle(it)
+                    }
+                }
+                result?.addAll(local)
+            }
+            remote != null -> {
+                result?.addAll(remote)
+                remote.forEach{
+                    repository.saveArticle(it)
+                }
+            }
+            else -> result = null
+        }
+        return result
     }
 
     override suspend fun getEverythingAsync(

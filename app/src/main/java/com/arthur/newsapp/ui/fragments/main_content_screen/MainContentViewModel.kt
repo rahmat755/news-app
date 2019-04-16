@@ -15,11 +15,16 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
     private val _topArticles: MutableLiveData<List<Article>?> = MutableLiveData()
     val topArticles: LiveData<List<Article>?>
         get() = _topArticles
-
+    private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
+    val errorLiveData: LiveData<String>
+        get() = _errorLiveData
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _topArticles.postValue(useCase.getTopNewsAsync(pageSize = 10, page = 1))
+                val res = useCase.getTopNewsAsync(pageSize = 10, page = 1)
+                if (!res.isNullOrEmpty())
+                    _topArticles.postValue(res)
+                else _errorLiveData.postValue("Error on initial load")
             }
         }
     }
@@ -27,13 +32,10 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
     fun load(query: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _topArticles.postValue(
-                    useCase.getTopNewsAsync(
-                        query = query,
-                        pageSize = 10,
-                        page = 1
-                    )
-                )
+                val res = useCase.getTopNewsAsync(pageSize = 10, page = 1, query = query)
+                if (!res.isNullOrEmpty())
+                    _topArticles.postValue(res)
+                else _errorLiveData.postValue("No news")
             }
         }
     }

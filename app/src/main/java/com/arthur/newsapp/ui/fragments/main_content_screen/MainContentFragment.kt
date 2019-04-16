@@ -42,31 +42,40 @@ class MainContentFragment : Fragment() {
             val searchItem = it.findItem(R.id.action_search)
             val searchView = searchItem.actionView as SearchView
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    query ?: return false
-                    if (query.isNullOrBlank()) viewModel.load("")
-                    mAdapter.filter(query)
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    viewModel.load(query)
                     return false
                 }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    newText ?: return false
-                    if (newText.isNullOrBlank()) viewModel.load("")
+                override fun onQueryTextChange(newText: String): Boolean {
+                    if (searchView.query.isEmpty())
+                        viewModel.load("")
                     mAdapter.filter(newText)
                     return false
                 }
 
             })
         }
-        val decoration =EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
+        val decoration = EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
+
         with(rv_articles) {
             adapter = mAdapter
             addItemDecoration(decoration)
         }
+
         viewModel = injectViewModel(vmFactory)
         viewModel.topArticles.observe(this, Observer {
+            pb_loading.visibility = View.GONE
+            tv_no_data.visibility = View.GONE
+            mAdapter.clear()
             mAdapter.addItems(it)
             Timber.e(it.toString())
+        })
+
+        viewModel.errorLiveData.observe(this, Observer {
+            pb_loading.visibility = View.GONE
+            tv_no_data.visibility = View.VISIBLE
+            tv_no_data.text = it
         })
     }
 
