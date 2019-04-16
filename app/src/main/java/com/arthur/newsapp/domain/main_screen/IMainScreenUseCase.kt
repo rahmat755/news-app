@@ -9,7 +9,7 @@ interface IMainScreenUseCase {
         sources: String = "",
         page: Int,
         country: String = "ru",
-        pageSize: Int
+        pageSize: Int =1
     ): List<Article>?
 
     suspend fun getEverythingAsync(

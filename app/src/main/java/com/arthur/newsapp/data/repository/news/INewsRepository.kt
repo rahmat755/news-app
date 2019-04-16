@@ -11,7 +11,7 @@ interface INewsRepository {
         sources: String = "",
         page: Int,
         country: String = "ru",
-        pageSize: Int
+        pageSize: Int = 1
     ): Deferred<Response>
 
     suspend fun getEverythingAsync(
@@ -30,7 +30,7 @@ interface INewsRepository {
 
     suspend fun getTopNewsLocalAsyncByQuery(query: String = ""): List<Article>
 
-    suspend fun getTopNewsLocalAsync():List<Article>
+    suspend fun getTopNewsLocalAsync(): List<Article>
 
     suspend fun saveArticle(article: Article)
 }
