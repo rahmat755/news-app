@@ -122,17 +122,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_open"
-            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/buttonColor"
             android:text="@string/open_on_site"
-            android:textSize="14sp"
-            app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_share"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,15 +136,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_share"
-            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/buttonColor"
             android:text="@string/share_link"
-            android:textSize="14sp"
-            app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/btn_open"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_open"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
@@ -35,7 +36,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
     lateinit var mAdapter: MainContentAdapter
     private var mQuery = ""
     private var page = 1
-    lateinit var lm : LinearLayoutManager
+    lateinit var lm: LinearLayoutManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,10 +53,10 @@ class MainContentFragment : Fragment(), OnArticleClick {
         tb_main.inflateMenu(R.menu.toolbar_menu)
         pb_loading.show()
         tb_main.tv_toolbar.text = context?.getString(R.string.app_name)
-        tb_main.menu.also {
-            val searchItem = it.findItem(R.id.action_search)
+        tb_main.menu.also { menu ->
+            val searchItem = menu.findItem(R.id.action_search)
             val searchView = searchItem.actionView as SearchView
-            val refreshAction = it.findItem(R.id.action_refresh)
+            val refreshAction = menu.findItem(R.id.action_refresh)
             refreshAction.setOnMenuItemClickListener {
                 page = 1
                 viewModel.load(mQuery, page)
@@ -74,15 +75,15 @@ class MainContentFragment : Fragment(), OnArticleClick {
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     page = 1
-                    viewModel.load(query)
+                    viewModel.load(query, page)
                     mQuery = query
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String): Boolean {
                     if (searchView.query.isEmpty()) {
-                        viewModel.load("")
                         page = 1
+                        viewModel.load("", page)
                     }
                     mAdapter.filter(newText)
                     mQuery = newText
@@ -98,7 +99,6 @@ class MainContentFragment : Fragment(), OnArticleClick {
             viewModel.load(
                 mQuery, page
             )
-            Timber.e(page.toString())
         }, lm)
         rv_articles.addOnScrollListener(listener)
 
@@ -124,12 +124,11 @@ class MainContentFragment : Fragment(), OnArticleClick {
         })
 
         viewModel.errorLiveData.observe(this, Observer {
-            pb_loading.visibility = View.GONE
+            pb_loading.hide()
             tv_no_data.visibility = View.VISIBLE
             swipe_r_layout.isRefreshing = false
             tv_no_data.text = it
         })
-
     }
 
     override fun onClick(item: Article, position: Int) {
