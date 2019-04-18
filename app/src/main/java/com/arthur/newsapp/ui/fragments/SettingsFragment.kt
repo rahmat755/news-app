@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.arthur.newsapp.R
+import com.arthur.newsapp.ui.dialogs.ChooseCountryDialogFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
 
 class SettingsFragment : Fragment() {
@@ -26,6 +27,10 @@ class SettingsFragment : Fragment() {
                 activity?.supportFragmentManager
                     ?.popBackStack()
             }
+        }
+        btn_choose_country.setOnClickListener {
+            val d = ChooseCountryDialogFragment()
+            d.show(fragmentManager!!, "111")
         }
     }
 }

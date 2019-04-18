@@ -13,4 +13,6 @@
     <string name="country">Country</string>
     <string name="language">Language</string>
     <string name="sources">Sources</string>
+    <string name="choose_country">Choose country</string>
+    <string name="save">Save</string>
 </resources>
