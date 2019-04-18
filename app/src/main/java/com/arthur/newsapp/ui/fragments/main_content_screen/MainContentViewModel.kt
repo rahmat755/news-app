@@ -19,16 +19,6 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
 
-//    init {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                val res = useCase.getTopNewsAsync(pageSize = 3, page = 1)
-//                if (!res.isNullOrEmpty())
-//                    _topArticles.postValue(res)
-//                else _errorLiveData.postValue("Error on initial load")
-//            }
-//        }
-//    }
 
     fun load(query: String = "", page: Int = 1) {
         viewModelScope.launch {

@@ -3,7 +3,6 @@ package com.arthur.newsapp.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.arthur.newsapp.data.datasource.local.NewsDB
 import com.arthur.newsapp.data.datasource.remote.NewsApi
 import com.arthur.newsapp.data.utils.BASE_URL

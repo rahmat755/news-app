@@ -1,7 +1,6 @@
 package com.arthur.newsapp.ui.fragments.detail_screen
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,27 +31,31 @@ class DetailScreenFragment : Fragment() {
             val dateTransition = bundle.getString("tv_date")
             val article = bundle.getParcelable<Article>("article")
             this.article = article
-            binding.article = article
-            binding.ivTransition = ivTransition
-            binding.tvAuthorTrans = authorTransition
-            binding.tvTitleTrans = titleTransition
-            binding.tvDescTrans = descTransition
-            binding.tvDateTrans = dateTransition
+
+            binding.run {
+                this.article = article
+                this.ivTransition = ivTransition
+                this.tvAuthorTrans = authorTransition
+                this.tvTitleTrans = titleTransition
+                this.tvDescTrans = descTransition
+                this.tvDateTrans = dateTransition
+            }
         }
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        tb_detail.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
-        if (article != null) {
-            tb_detail.title = article?.title ?: context?.getString(R.string.app_name)
-        } else
-            tb_detail.title = context?.getString(R.string.app_name)
-        tb_detail.setNavigationOnClickListener {
-            activity?.supportFragmentManager
-                ?.popBackStack()
+
+        tb_detail.run {
+            setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
+            title = article?.title ?: context?.getString(R.string.app_name)
+            setNavigationOnClickListener {
+                activity?.supportFragmentManager
+                    ?.popBackStack()
+            }
         }
+
         btn_share.setOnClickListener {
             article?.let {
                 val sendIntent: Intent = Intent().apply {
@@ -66,16 +69,15 @@ class DetailScreenFragment : Fragment() {
                 startActivity(sendIntent)
             }
         }
+
         btn_open.setOnClickListener {
             article?.let {
-                val bundle = Bundle()
-                bundle.putString("url", article?.url)
-                val fr = WebViewFragment()
-                fr.arguments = bundle
+                val bundle = Bundle().apply { putString("url", article?.url) }
+                val fr = WebViewFragment().apply { arguments = bundle }
                 activity?.supportFragmentManager
                     ?.beginTransaction()
                     ?.hide(this)
-                    ?.add(R.id.container,fr, fr.javaClass.simpleName)
+                    ?.add(R.id.container, fr, fr.javaClass.simpleName)
                     ?.addToBackStack(fr.javaClass.simpleName)
                     ?.commit()
             }

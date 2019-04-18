@@ -42,16 +42,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp">
-
-            <TextView
-                android:id="@+id/tv_toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="22sp"
-                app:setTitle="@{article.title}" />
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView

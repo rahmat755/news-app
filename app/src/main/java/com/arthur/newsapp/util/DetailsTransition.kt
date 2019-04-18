@@ -13,12 +13,3 @@ class DetailsTransition : TransitionSet() {
         addTransition(ChangeImageTransform())
     }
 }
-
-class ReturnTransition : TransitionSet() {
-    init {
-        ordering = ORDERING_TOGETHER
-        addTransition(ChangeBounds())
-        addTransition(ChangeTransform())
-        addTransition(ChangeImageTransform())
-    }
-}

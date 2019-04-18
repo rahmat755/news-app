@@ -25,25 +25,31 @@ class EqualSpacingItemDecoration constructor(private val spacing: Int, private v
 
         when (displayMode) {
             HORIZONTAL -> {
-                outRect.left = spacing
-                outRect.right = if (position == itemCount - 1) spacing else 0
-                outRect.top = spacing
-                outRect.bottom = spacing
+                outRect.apply {
+                    left = spacing
+                    right = if (position == itemCount - 1) spacing else 0
+                    top = spacing
+                    bottom = spacing
+                }
             }
             VERTICAL -> {
-                outRect.left = spacing
-                outRect.right = spacing
-                outRect.top = spacing
-                outRect.bottom = if (position == itemCount - 1) spacing else 0
+                outRect.apply {
+                    left = spacing
+                    right = spacing
+                    top = spacing
+                    bottom = if (position == itemCount - 1) spacing else 0
+                }
             }
             GRID -> if (layoutManager is GridLayoutManager) {
                 val cols = layoutManager.spanCount
                 val rows = itemCount / cols
 
-                outRect.left = spacing
-                outRect.right = if (position % cols == cols - 1) spacing else 0
-                outRect.top = spacing
-                outRect.bottom = if (position / cols == rows - 1) spacing else 0
+                outRect.apply {
+                    left = spacing
+                    right = if (position % cols == cols - 1) spacing else 0
+                    top = spacing
+                    bottom = if (position / cols == rows - 1) spacing else 0
+                }
             }
         }
     }
@@ -54,7 +60,6 @@ class EqualSpacingItemDecoration constructor(private val spacing: Int, private v
     }
 
     companion object {
-
         const val HORIZONTAL = 0
         const val VERTICAL = 1
         const val GRID = 2

@@ -11,7 +11,6 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 
 import com.arthur.newsapp.R
-import kotlinx.android.synthetic.main.detail_screen_fragment.*
 import kotlinx.android.synthetic.main.fragment_web_view.*
 
 class WebViewFragment : Fragment() {
@@ -26,14 +25,15 @@ class WebViewFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val bundle = arguments
-        val url = bundle?.getString("url")
-        tb_webview.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
-        tb_webview.setNavigationOnClickListener {
-            activity?.supportFragmentManager
-                ?.popBackStack()
+        val url = arguments?.getString("url")
+        tb_webview.apply {
+            setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
+            setNavigationOnClickListener {
+                activity?.supportFragmentManager
+                    ?.popBackStack()
+            }
         }
-        with(wv_chrome) {
+        wv_chrome.run {
             webChromeClient = WebChromeClient()
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true

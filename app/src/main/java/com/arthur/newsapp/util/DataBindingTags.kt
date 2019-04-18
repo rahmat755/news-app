@@ -6,26 +6,13 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.arthur.newsapp.R
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.signature.ObjectKey
 import java.text.SimpleDateFormat
-import java.util.*
-
-
 
 
 @BindingAdapter("setTextOrHide")
 fun setTextOrHide(view: TextView, text: String?) {
     if (text.isNullOrBlank()) {
         view.visibility = View.GONE
-        return
-    }
-    view.text = text
-}
-
-@BindingAdapter("setTitle")
-fun setTitle(view: TextView, text: String?) {
-    if (text.isNullOrBlank()) {
-        view.text = view.context.getString(R.string.app_name)
         return
     }
     view.text = text
