@@ -33,4 +33,6 @@ interface INewsRepository {
     suspend fun getTopNewsLocalAsync(): List<Article>
 
     suspend fun saveArticle(article: Article)
+
+    suspend fun deleteAll()
 }

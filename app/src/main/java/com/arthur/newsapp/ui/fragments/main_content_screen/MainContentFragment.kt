@@ -33,10 +33,10 @@ class MainContentFragment : Fragment(), OnArticleClick {
     @Inject
     lateinit var vmFactory: MainContentVMFactory
     private lateinit var viewModel: MainContentViewModel
-    lateinit var mAdapter: MainContentAdapter
+    private lateinit var mAdapter: MainContentAdapter
     private var mQuery = ""
     private var page = 1
-    lateinit var lm: LinearLayoutManager
+    private lateinit var lm: LinearLayoutManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,13 +48,13 @@ class MainContentFragment : Fragment(), OnArticleClick {
         super.onActivityCreated(savedInstanceState)
         NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
         viewModel = ViewModelProviders.of(this, vmFactory).get(MainContentViewModel::class.java)
-        if (savedInstanceState == null) viewModel.load()
+        if (savedInstanceState == null) viewModel.load(country = readString(getString(R.string.country_code)) ?: "ru")
         lm = LinearLayoutManager(context)
         mAdapter = MainContentAdapter(this)
         val listener = InfiniteScrollListener({
             page += 1
             viewModel.load(
-                mQuery, page
+                mQuery, page, readString(getString(R.string.country_code)) ?: "ru"
             )
         }, lm)
         val decoration = EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
@@ -73,8 +73,9 @@ class MainContentFragment : Fragment(), OnArticleClick {
                     val settings = SettingsFragment()
                     activity?.supportFragmentManager
                         ?.beginTransaction()
-                        ?.hide(this@MainContentFragment)
-                        ?.add(R.id.container, settings, settings.javaClass.simpleName)
+                        ?.detach(this@MainContentFragment)
+//                        ?.hide(this@MainContentFragment)
+                        ?.replace(R.id.container, settings, settings.javaClass.simpleName)
                         ?.addToBackStack(settings.javaClass.simpleName)
                         ?.commit()
                     return@setOnMenuItemClickListener false
@@ -82,7 +83,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
                 refreshAction.setOnMenuItemClickListener {
                     page = 1
-                    viewModel.load(mQuery, page)
+                    viewModel.load(mQuery, page, readString(getString(R.string.country_code)) ?: "ru")
                     mAdapter.clear()
                     pb_loading.show()
                     lm.scrollToPosition(0)
@@ -92,7 +93,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         page = 1
-                        viewModel.load(query, page)
+                        viewModel.load(query, page, readString(getString(R.string.country_code)) ?: "ru")
                         mQuery = query
                         return false
                     }
@@ -100,7 +101,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
                     override fun onQueryTextChange(newText: String): Boolean {
                         if (searchView.query.isEmpty()) {
                             page = 1
-                            viewModel.load("", page)
+                            viewModel.load("", page, readString(getString(R.string.country_code)) ?: "ru")
                         }
                         mAdapter.filter(newText)
                         mQuery = newText
@@ -121,7 +122,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
         swipe_r_layout.setOnRefreshListener {
             page = 1
             viewModel.load(
-                mQuery, page
+                mQuery, page, readString(getString(R.string.country_code)) ?: "ru"
             )
         }
 

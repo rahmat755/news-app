@@ -2,6 +2,7 @@ package com.arthur.newsapp.di
 
 import com.arthur.newsapp.di.main_content.MainContentComponent
 import com.arthur.newsapp.di.main_content.MainContentModule
+import com.arthur.newsapp.ui.dialogs.ChooseCountryDialogFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,4 +10,5 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
     fun plus(module: MainContentModule): MainContentComponent
+    fun inject(fr: ChooseCountryDialogFragment)
 }

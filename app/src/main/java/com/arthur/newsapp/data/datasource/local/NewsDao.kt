@@ -8,7 +8,7 @@ interface NewsDao {
     @Query("SELECT * FROM article")
     suspend fun select(): List<Article>
 
-    @Query("SELECT * FROM article WHERE title like :query or author like :query or description like :query")
+    @Query("SELECT * FROM article WHERE (title like :query or author like :query or description like :query)")
     suspend fun select(query: String): List<Article>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -19,4 +19,7 @@ interface NewsDao {
 
     @Update
     suspend fun update(el: Article)
+
+    @Query("DELETE FROM article")
+    suspend fun deleteAll()
 }

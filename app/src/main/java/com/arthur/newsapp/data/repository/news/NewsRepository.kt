@@ -8,6 +8,10 @@ import kotlinx.coroutines.Deferred
 
 class NewsRepository constructor(private val api: NewsApi, private val dao: NewsDao) :
     INewsRepository {
+    override suspend fun deleteAll() {
+        dao.deleteAll()
+    }
+
     override suspend fun getTopNewsLocalAsync(): List<Article> = dao.select()
 
     override suspend fun getTopNewsLocalAsyncByQuery(query: String): List<Article> =
