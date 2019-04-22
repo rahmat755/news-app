@@ -1,5 +1,6 @@
-package com.arthur.newsapp.ui.fragments.main_content_screen
+package com.arthur.newsapp.ui.fragments.articles.everything_articles_screen
 
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,33 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Explode
 import androidx.transition.Fade
 import com.arthur.newsapp.NewsApp
 
-import com.arthur.newsapp.di.main_content.MainContentModule
-import com.arthur.newsapp.util.vmfactories.MainContentVMFactory
+import com.arthur.newsapp.R
+import com.arthur.newsapp.data.model.news.Article
+import com.arthur.newsapp.di.everything.EverythingModule
+import com.arthur.newsapp.ui.fragments.OnArticleClick
+import com.arthur.newsapp.ui.fragments.SettingsFragment
+import com.arthur.newsapp.ui.fragments.articles.ArticlesAdapter
+import com.arthur.newsapp.ui.fragments.detail_screen.DetailScreenFragment
+import com.arthur.newsapp.util.DetailsTransition
+import com.arthur.newsapp.util.EqualSpacingItemDecoration
+import com.arthur.newsapp.util.InfiniteScrollListener
+import com.arthur.newsapp.util.readString
+import com.arthur.newsapp.util.vmfactories.EverythingVMFactory
+import kotlinx.android.synthetic.main.item_article.*
 import kotlinx.android.synthetic.main.main_content_fragment.*
 import timber.log.Timber
 import javax.inject.Inject
-import com.arthur.newsapp.R
-import com.arthur.newsapp.data.model.news.Article
-import com.arthur.newsapp.ui.fragments.SettingsFragment
-import com.arthur.newsapp.ui.fragments.detail_screen.DetailScreenFragment
-import com.arthur.newsapp.util.*
-import kotlinx.android.synthetic.main.item_article.*
-import kotlinx.android.synthetic.main.item_article.tv_author
-import kotlinx.android.synthetic.main.item_article.tv_desc
-import kotlinx.android.synthetic.main.item_article.tv_title
 
-
-class MainContentFragment : Fragment(), OnArticleClick {
+class EverythingArticlesFragment : Fragment(), OnArticleClick {
 
     @Inject
-    lateinit var vmFactory: MainContentVMFactory
-    private lateinit var viewModel: MainContentViewModel
-    private lateinit var mAdapter: MainContentAdapter
+    lateinit var vmFactory: EverythingVMFactory
+    private lateinit var viewModel: EverythingArticlesViewModel
+    private lateinit var mAdapter: ArticlesAdapter
     private var mQuery = ""
     private var page = 1
     private lateinit var lm: LinearLayoutManager
@@ -46,11 +48,11 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
-        viewModel = ViewModelProviders.of(this, vmFactory).get(MainContentViewModel::class.java)
-        if (savedInstanceState == null) viewModel.load(country = readString(getString(R.string.country_code)) ?: "ru")
+        NewsApp.daggerAppComponent.plus(EverythingModule()).inject(this)
+        viewModel = ViewModelProviders.of(this, vmFactory).get(EverythingArticlesViewModel::class.java)
+        if (savedInstanceState == null) viewModel.load(language = readString(getString(R.string.country_code)) ?: "ru")
         lm = LinearLayoutManager(context)
-        mAdapter = MainContentAdapter(this)
+        mAdapter = ArticlesAdapter(this)
         val listener = InfiniteScrollListener({
             page += 1
             viewModel.load(
@@ -60,6 +62,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
         val decoration = EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
 
         pb_loading.show()
+
         tb_main.apply {
             inflateMenu(R.menu.toolbar_menu)
             title = context?.getString(R.string.app_name)
@@ -73,8 +76,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
                     val settings = SettingsFragment()
                     activity?.supportFragmentManager
                         ?.beginTransaction()
-                        ?.detach(this@MainContentFragment)
-//                        ?.hide(this@MainContentFragment)
+                        ?.detach(this@EverythingArticlesFragment)
                         ?.replace(R.id.container, settings, settings.javaClass.simpleName)
                         ?.addToBackStack(settings.javaClass.simpleName)
                         ?.commit()
@@ -128,7 +130,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
         viewModel.run {
 
-            topArticles.observe(this@MainContentFragment, Observer {
+            articles.observe(this@EverythingArticlesFragment, Observer {
                 pb_loading.hide()
                 swipe_r_layout.isRefreshing = false
                 tv_no_data.visibility = View.GONE
@@ -136,7 +138,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
                 Timber.e(it.toString())
             })
 
-            errorLiveData.observe(this@MainContentFragment, Observer {
+            errorLiveData.observe(this@EverythingArticlesFragment, Observer {
                 pb_loading.hide()
                 tv_no_data.visibility = View.VISIBLE
                 swipe_r_layout.isRefreshing = false
@@ -158,7 +160,7 @@ class MainContentFragment : Fragment(), OnArticleClick {
         }
         val details = DetailScreenFragment().apply {
             sharedElementEnterTransition = DetailsTransition()
-            enterTransition = Fade()
+            enterTransition = Explode()
             sharedElementReturnTransition = DetailsTransition()
             arguments = bundle
         }
@@ -176,4 +178,5 @@ class MainContentFragment : Fragment(), OnArticleClick {
             ?.addToBackStack(details.javaClass.simpleName)
             ?.commit()
     }
+
 }

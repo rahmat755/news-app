@@ -1,4 +1,4 @@
-package com.arthur.newsapp.ui.fragments.main_content_screen
+package com.arthur.newsapp.ui.fragments
 
 import com.arthur.newsapp.data.model.news.Article
 

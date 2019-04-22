@@ -28,11 +28,12 @@ interface INewsRepository {
         country: String = ""
     ): Deferred<Response>
 
-    suspend fun getTopNewsLocalAsyncByQuery(query: String = ""): List<Article>
+    suspend fun getNewsLocalAsyncByQuery(query: String = ""): List<Article>
 
-    suspend fun getTopNewsLocalAsync(): List<Article>
+    suspend fun getNewsLocalAsync(): List<Article>
 
     suspend fun saveArticle(article: Article)
 
     suspend fun deleteAll()
+
 }

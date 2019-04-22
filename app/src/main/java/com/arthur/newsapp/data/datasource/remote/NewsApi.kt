@@ -1,6 +1,7 @@
 package com.arthur.newsapp.data.datasource.remote
 
 import com.arthur.newsapp.data.model.news.Response
+import com.arthur.newsapp.data.model.source.Sources
 import com.arthur.newsapp.data.utils.API_KEY
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
@@ -35,6 +36,6 @@ interface NewsApi {
         @Query("category") category: String,
         @Query("language") language: String,
         @Query("country") country: String
-    ): Deferred<Response>
+    ): Deferred<Sources>
 
 }

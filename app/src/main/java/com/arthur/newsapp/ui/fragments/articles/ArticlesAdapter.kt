@@ -1,4 +1,4 @@
-package com.arthur.newsapp.ui.fragments.main_content_screen
+package com.arthur.newsapp.ui.fragments.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arthur.newsapp.R
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.databinding.ItemArticleBinding
+import com.arthur.newsapp.ui.fragments.OnArticleClick
 
-class MainContentAdapter constructor(private val listener: OnArticleClick) :
-    RecyclerView.Adapter<MainContentAdapter.ViewHolder>() {
+class ArticlesAdapter constructor(private val listener: OnArticleClick) :
+    RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     private val articles: ArrayList<Article> = arrayListOf()
 
@@ -51,16 +52,16 @@ class MainContentAdapter constructor(private val listener: OnArticleClick) :
     }
 
     fun filter(predicate: String) {
-        val regex = Regex(predicate)
+        val regex = Regex(predicate.toLowerCase())
         val tmp = articles.filter { article ->
             (if (article.description != null)
-                article.description.contains(regex)
+                article.description.toLowerCase().contains(regex)
             else false) ||
                     (if (article.author != null)
-                        article.author.contains(regex)
+                       article.author.toLowerCase().contains(regex)
                     else false) ||
                     (if (article.title != null)
-                        article.title.contains(regex)
+                        article.title.toLowerCase().contains(regex)
                     else false)
         }
         articles.run {

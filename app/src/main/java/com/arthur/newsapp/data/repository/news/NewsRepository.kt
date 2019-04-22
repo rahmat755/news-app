@@ -12,9 +12,9 @@ class NewsRepository constructor(private val api: NewsApi, private val dao: News
         dao.deleteAll()
     }
 
-    override suspend fun getTopNewsLocalAsync(): List<Article> = dao.select()
+    override suspend fun getNewsLocalAsync(): List<Article> = dao.select()
 
-    override suspend fun getTopNewsLocalAsyncByQuery(query: String): List<Article> =
+    override suspend fun getNewsLocalAsyncByQuery(query: String): List<Article> =
         dao.select(query)
 
     override suspend fun saveArticle(article: Article) {

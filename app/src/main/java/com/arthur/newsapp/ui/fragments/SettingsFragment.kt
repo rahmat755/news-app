@@ -8,7 +8,7 @@ import android.view.ViewGroup
 
 import com.arthur.newsapp.R
 import com.arthur.newsapp.ui.dialogs.ChooseCountryDialogFragment
-import com.arthur.newsapp.ui.fragments.main_content_screen.MainContentFragment
+import com.arthur.newsapp.ui.fragments.articles.top_articles_screen.TopArticlesFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
 
 class SettingsFragment : Fragment() {
@@ -25,11 +25,11 @@ class SettingsFragment : Fragment() {
         tb_settings.run {
             setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
             setNavigationOnClickListener {
-                val mainFr = MainContentFragment()
+                val mainFr = TopArticlesFragment()
                 activity?.supportFragmentManager
                     ?.beginTransaction()
                     ?.detach(this@SettingsFragment)
-//                        ?.hide(this@MainContentFragment)
+//                        ?.hide(this@TopArticlesFragment)
                     ?.replace(R.id.container, mainFr, mainFr.javaClass.simpleName)
                     ?.commit()
             }

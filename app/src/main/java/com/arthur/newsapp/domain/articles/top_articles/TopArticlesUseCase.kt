@@ -1,11 +1,11 @@
-package com.arthur.newsapp.domain.main_screen
+package com.arthur.newsapp.domain.articles.top_articles
 
 import com.arthur.newsapp.data.model.news.Article
 import com.arthur.newsapp.data.repository.news.INewsRepository
 import com.arthur.newsapp.domain.BaseUseCase
 import java.text.SimpleDateFormat
 
-class MainScreenUseCase constructor(private val repository: INewsRepository) : IMainScreenUseCase,
+class TopArticlesUseCase constructor(private val repository: INewsRepository) : ITopArticlesUseCase,
     BaseUseCase<Article>() {
 
     private val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -33,8 +33,8 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
 
         try {
             local = if (query.isNotBlank())
-                repository.getTopNewsLocalAsyncByQuery("%$query%")
-            else repository.getTopNewsLocalAsync()
+                repository.getNewsLocalAsyncByQuery("%$query%")
+            else repository.getNewsLocalAsync()
         } catch (e: Throwable) {
             local = null
         }
@@ -64,29 +64,4 @@ class MainScreenUseCase constructor(private val repository: INewsRepository) : I
 
         return result
     }
-
-    override suspend fun getEverythingAsync(
-        query: String,
-        sources: String,
-        page: Int,
-        language: String,
-        pageSize: Int
-    ): List<Article>? = safeApiCall({
-        repository.getEverythingAsync(
-            query,
-            sources,
-            page,
-            language,
-            pageSize
-        )
-    }, errorMessage = "Can't load everything")
-
-//    override suspend fun getSourcesAsync(
-//        category: String,
-//        language: String,
-//        country: String
-//    ): Deferred<Response> {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-
 }
