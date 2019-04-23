@@ -58,3 +58,12 @@ val COUNTRY_CODES = hashMapOf(
     "Венесуэла" to "ve",
     "Замбия" to "za"
 )
+val CATEGORIES = hashMapOf(
+    "Бизнес" to "business",
+    "Развлечения" to "entertainment",
+    "Общие новости" to "general",
+    "Здоровье" to "health",
+    "Наука" to "science",
+    "Спорт" to "sports",
+    "Технологии" to "technology"
+)

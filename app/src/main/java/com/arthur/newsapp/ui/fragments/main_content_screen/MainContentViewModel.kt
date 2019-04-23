@@ -20,10 +20,21 @@ class MainContentViewModel constructor(private val useCase: IMainScreenUseCase) 
         get() = _errorLiveData
 
 
-    fun load(query: String = "", page: Int = 1, country: String = "ru") {
+    fun load(
+        query: String = "",
+        page: Int = 1,
+        country: String = "ru",
+        category: String = "general"
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val res = useCase.getTopNewsAsync(pageSize = 10, page = page, query = query, country = country)
+                val res = useCase.getTopNewsAsync(
+                    pageSize = 10,
+                    page = page,
+                    query = query,
+                    country = country,
+                    category =category
+                )
                 if (!res.isNullOrEmpty())
                     _topArticles.postValue(res)
                 else _errorLiveData.postValue("No news")

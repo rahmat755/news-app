@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.arthur.newsapp.R
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.Target
 import java.text.SimpleDateFormat
 
 
@@ -19,10 +20,12 @@ fun setTextOrHide(view: TextView, text: String?) {
 }
 
 @BindingAdapter("loadImg")
-fun loadImg(view: ImageView, url: String) {
+fun loadImg(view: ImageView, url: String?) {
     GlideApp.with(view)
         .load(url)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .override(Target.SIZE_ORIGINAL)
+        .placeholder(R.drawable.ic_placeholder)
         .error(R.drawable.ic_error_outline_black_24dp)
         .into(view)
 }

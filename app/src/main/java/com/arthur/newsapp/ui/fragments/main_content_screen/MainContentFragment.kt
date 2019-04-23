@@ -48,13 +48,19 @@ class MainContentFragment : Fragment(), OnArticleClick {
         super.onActivityCreated(savedInstanceState)
         NewsApp.daggerAppComponent.plus(MainContentModule()).inject(this)
         viewModel = ViewModelProviders.of(this, vmFactory).get(MainContentViewModel::class.java)
-        if (savedInstanceState == null) viewModel.load(country = readString(getString(R.string.country_code)) ?: "ru")
+        if (savedInstanceState == null) viewModel.load(
+            country = readString(getString(R.string.country_code)) ?: "ru",
+            category = readString(getString(R.string.category),"general")!!
+        )
         lm = LinearLayoutManager(context)
         mAdapter = MainContentAdapter(this)
         val listener = InfiniteScrollListener({
             page += 1
             viewModel.load(
-                mQuery, page, readString(getString(R.string.country_code)) ?: "ru"
+                mQuery,
+                page,
+                readString(getString(R.string.country_code)) ?: "ru",
+                readString(getString(R.string.category),"general")!!
             )
         }, lm)
         val decoration = EqualSpacingItemDecoration(4, EqualSpacingItemDecoration.VERTICAL)
@@ -83,7 +89,12 @@ class MainContentFragment : Fragment(), OnArticleClick {
 
                 refreshAction.setOnMenuItemClickListener {
                     page = 1
-                    viewModel.load(mQuery, page, readString(getString(R.string.country_code)) ?: "ru")
+                    viewModel.load(
+                        mQuery,
+                        page,
+                        readString(getString(R.string.country_code)) ?: "ru",
+                        readString(getString(R.string.category),"general")!!
+                    )
                     mAdapter.clear()
                     pb_loading.show()
                     lm.scrollToPosition(0)
@@ -93,7 +104,12 @@ class MainContentFragment : Fragment(), OnArticleClick {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         page = 1
-                        viewModel.load(query, page, readString(getString(R.string.country_code)) ?: "ru")
+                        viewModel.load(
+                            query,
+                            page,
+                            readString(getString(R.string.country_code)) ?: "ru",
+                            readString(getString(R.string.category),"general")!!
+                        )
                         mQuery = query
                         return false
                     }
@@ -101,7 +117,12 @@ class MainContentFragment : Fragment(), OnArticleClick {
                     override fun onQueryTextChange(newText: String): Boolean {
                         if (searchView.query.isEmpty()) {
                             page = 1
-                            viewModel.load("", page, readString(getString(R.string.country_code)) ?: "ru")
+                            viewModel.load(
+                                "",
+                                page,
+                                readString(getString(R.string.country_code)) ?: "ru",
+                                readString(getString(R.string.category),"general")!!
+                            )
                         }
                         mAdapter.filter(newText)
                         mQuery = newText
@@ -122,12 +143,12 @@ class MainContentFragment : Fragment(), OnArticleClick {
         swipe_r_layout.setOnRefreshListener {
             page = 1
             viewModel.load(
-                mQuery, page, readString(getString(R.string.country_code)) ?: "ru"
+                mQuery, page, readString(getString(R.string.country_code)) ?: "ru",
+                readString(getString(R.string.category),"general")!!
             )
         }
 
         viewModel.run {
-
             topArticles.observe(this@MainContentFragment, Observer {
                 pb_loading.hide()
                 swipe_r_layout.isRefreshing = false
@@ -142,7 +163,6 @@ class MainContentFragment : Fragment(), OnArticleClick {
                 swipe_r_layout.isRefreshing = false
                 tv_no_data.text = it
             })
-
         }
     }
 
